@@ -11,7 +11,11 @@ export const bashSchema = {
   inputSchema: {
     type: "object" as const,
     properties: {
-      command: { type: "string", description: "Shell command to execute. For repo/project commands, start with `cd /absolute/repo && ...` because the default cwd is the session sandbox." },
+      command: {
+        type: "string",
+        description:
+          "Shell command to execute. For repo/project commands, start with `cd /absolute/repo && ...` because the default cwd is the session sandbox.",
+      },
       timeout_seconds: {
         type: "number",
         description: "Timeout in seconds (default: 120)",
@@ -19,7 +23,11 @@ export const bashSchema = {
     },
     required: ["command"],
   },
-  annotations: { readOnlyHint: false, destructiveHint: true, openWorldHint: true },
+  annotations: {
+    readOnlyHint: false,
+    destructiveHint: true,
+    openWorldHint: true,
+  },
 };
 
 export async function executeBash(

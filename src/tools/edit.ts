@@ -9,13 +9,21 @@ export const editSchema = {
   inputSchema: {
     type: "object" as const,
     properties: {
-      path: { type: "string", description: "File path. Use an absolute path for repo/project files outside the sandbox; relative paths resolve inside the session sandbox." },
+      path: {
+        type: "string",
+        description:
+          "File path. Use an absolute path for repo/project files outside the sandbox; relative paths resolve inside the session sandbox.",
+      },
       edits: {
         type: "array",
         items: {
           type: "object",
           properties: {
-            oldText: { type: "string", description: "Exact text to find; include enough surrounding context so it matches exactly once" },
+            oldText: {
+              type: "string",
+              description:
+                "Exact text to find; include enough surrounding context so it matches exactly once",
+            },
             newText: { type: "string", description: "Replacement text" },
           },
           required: ["oldText", "newText"],

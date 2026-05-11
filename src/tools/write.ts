@@ -10,8 +10,15 @@ export const writeSchema = {
   inputSchema: {
     type: "object" as const,
     properties: {
-      path: { type: "string", description: "File path. Use an absolute path for repo/project files outside the sandbox; relative paths resolve inside the session sandbox." },
-      content: { type: "string", description: "Complete file content to write" },
+      path: {
+        type: "string",
+        description:
+          "File path. Use an absolute path for repo/project files outside the sandbox; relative paths resolve inside the session sandbox.",
+      },
+      content: {
+        type: "string",
+        description: "Complete file content to write",
+      },
     },
     required: ["path", "content"],
   },

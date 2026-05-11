@@ -1,7 +1,15 @@
 #!/usr/bin/env node
 import { spawn } from "node:child_process";
 import { randomBytes } from "node:crypto";
-import { existsSync, mkdirSync, writeFileSync, readFileSync, unlinkSync, openSync, chmodSync } from "node:fs";
+import {
+  existsSync,
+  mkdirSync,
+  writeFileSync,
+  readFileSync,
+  unlinkSync,
+  openSync,
+  chmodSync,
+} from "node:fs";
 import { basename, resolve } from "node:path";
 import { homedir } from "node:os";
 
@@ -22,8 +30,12 @@ function optionValue(name: string): string | undefined {
 
 const INVOKED_AS = basename(process.argv[1] || "agent-mcp");
 const DEFAULT_PROFILE = INVOKED_AS === "pi-mcp" ? "full" : "run-only";
-const PORT = parseInt(optionValue("--port") ?? process.env.AGENT_MCP_PORT ?? "3939", 10);
-const PROFILE = optionValue("--profile") ?? process.env.AGENT_MCP_PROFILE ?? DEFAULT_PROFILE;
+const PORT = parseInt(
+  optionValue("--port") ?? process.env.AGENT_MCP_PORT ?? "3939",
+  10,
+);
+const PROFILE =
+  optionValue("--profile") ?? process.env.AGENT_MCP_PROFILE ?? DEFAULT_PROFILE;
 const CWD = optionValue("--cwd") ?? process.env.AGENT_MCP_CWD;
 
 function ensureDirs() {
@@ -95,7 +107,9 @@ function start() {
 
   child.unref();
   writeFileSync(PID_FILE, String(child.pid));
-  console.log(`agent-mcp started (pid ${child.pid}) on http://127.0.0.1:${PORT}/mcp`);
+  console.log(
+    `agent-mcp started (pid ${child.pid}) on http://127.0.0.1:${PORT}/mcp`,
+  );
   console.log(`Profile: ${PROFILE}${CWD ? `, cwd: ${CWD}` : ""}`);
   console.log(`Auth: bearer token required (${TOKEN_FILE})`);
   console.log("Connector URL if headers are unavailable: run `agent-mcp url`");
@@ -132,7 +146,9 @@ function printToken() {
 
 function printUrl() {
   const token = getOrCreateToken();
-  console.log(`http://127.0.0.1:${PORT}/mcp?token=${encodeURIComponent(token)}`);
+  console.log(
+    `http://127.0.0.1:${PORT}/mcp?token=${encodeURIComponent(token)}`,
+  );
 }
 
 const command = process.argv[2];
@@ -158,6 +174,8 @@ switch (command) {
     printUrl();
     break;
   default:
-    console.log("Usage: agent-mcp <start|stop|status|restart|token|url> [--profile run-only|full|readonly] [--port 3939] [--cwd /repo]");
+    console.log(
+      "Usage: agent-mcp <start|stop|status|restart|token|url> [--profile run-only|full|readonly] [--port 3939] [--cwd /repo]",
+    );
     process.exit(1);
 }

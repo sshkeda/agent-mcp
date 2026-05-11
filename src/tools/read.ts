@@ -9,9 +9,20 @@ export const readSchema = {
   inputSchema: {
     type: "object" as const,
     properties: {
-      path: { type: "string", description: "File path. Use an absolute path for repo/project files outside the sandbox; relative paths resolve inside the session sandbox." },
-      offset: { type: "number", description: "0-based line number to start from; use with limit for large files" },
-      limit: { type: "number", description: "Maximum number of lines to return; use for large files" },
+      path: {
+        type: "string",
+        description:
+          "File path. Use an absolute path for repo/project files outside the sandbox; relative paths resolve inside the session sandbox.",
+      },
+      offset: {
+        type: "number",
+        description:
+          "0-based line number to start from; use with limit for large files",
+      },
+      limit: {
+        type: "number",
+        description: "Maximum number of lines to return; use for large files",
+      },
     },
     required: ["path"],
   },
