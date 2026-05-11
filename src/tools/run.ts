@@ -1,4 +1,4 @@
-import { mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs";
+import { mkdtempSync, rmSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join, relative } from "node:path";
 import { spawnSync } from "node:child_process";
@@ -31,7 +31,9 @@ export const runSchema = {
 };
 
 function truncate(text: string, max = MAX_OUTPUT_CHARS): string {
-  return text.length > max ? `${text.slice(0, max)}...[truncated ${text.length - max} chars]` : text;
+  return text.length > max
+    ? `${text.slice(0, max)}...[truncated ${text.length - max} chars]`
+    : text;
 }
 
 function jsString(value: string): string {
@@ -40,8 +42,11 @@ function jsString(value: string): string {
 
 function normalizeRunCode(code: string): string {
   const trimmed = code.trim();
-  if (/^(?:async\s*)?\([^)]*\)\s*=>/.test(trimmed) || /^(?:async\s+)?function\b/.test(trimmed)) {
-    const callable = trimmed.replace(/\s*\(\s*\)\s*;?\s*$/, '');
+  if (
+    /^(?:async\s*)?\([^)]*\)\s*=>/.test(trimmed) ||
+    /^(?:async\s+)?function\b/.test(trimmed)
+  ) {
+    const callable = trimmed.replace(/\s*\(\s*\)\s*;?\s*$/, "");
     return `return await (${callable})();`;
   }
   return code;
@@ -115,7 +120,7 @@ function tokenScore(queryTokens, haystack) {
 
 function expandBracePatterns(pattern) {
   const p = String(pattern || '');
-  const match = /\{([^{}]+)\}/.exec(p);
+  const match = /{([^{}]+)}/.exec(p);
   if (!match) return [p];
   return match[1].split(',').flatMap((part) => expandBracePatterns(p.slice(0, match.index) + part + p.slice(match.index + match[0].length)));
 }
@@ -372,7 +377,10 @@ export function executeRun(
 ): string {
   const pin = requirePinnedCwd();
   const cwd = pin.cwd;
-  const timeoutSeconds = Math.min(Math.max(Number(args.timeout_seconds ?? DEFAULT_TIMEOUT_SECONDS), 1), MAX_TIMEOUT_SECONDS);
+  const timeoutSeconds = Math.min(
+    Math.max(Number(args.timeout_seconds ?? DEFAULT_TIMEOUT_SECONDS), 1),
+    MAX_TIMEOUT_SECONDS,
+  );
   const dir = mkdtempSync(join(tmpdir(), "agent-mcp-run-"));
   const modulePath = join(dir, "run.mjs");
   try {
@@ -386,7 +394,10 @@ export function executeRun(
     });
     const stdout = truncate(child.stdout || "");
     const stderr = truncate(child.stderr || "");
-    const relCwd = cwd === session.cwd ? session.cwd : `${cwd} (${relative(session.cwd, cwd)})`;
+    const relCwd =
+      cwd === session.cwd
+        ? session.cwd
+        : `${cwd} (${relative(session.cwd, cwd)})`;
     let result = `[cwd: ${relCwd}; epoch: ${pin.epoch}]\n`;
     if (stdout) result += stdout;
     if (stderr) result += `\n[stderr]\n${stderr}`;

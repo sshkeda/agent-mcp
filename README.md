@@ -122,7 +122,9 @@ Example:
 
 ```js
 const scripts = await npm.findScripts("test");
-const matches = await repo.search("createMcpServer", { filePattern: "src/**/*.ts" });
+const matches = await repo.search("createMcpServer", {
+  filePattern: "src/**/*.ts",
+});
 return { scripts, firstMatch: matches[0]?.path ?? null };
 ```
 
@@ -131,20 +133,64 @@ Available globals:
 ```ts
 declare const repo: {
   cwd(): string;
-  read(path: string | { path?: string; absolutePath?: string }, options?: { offset?: number; limit?: number }): Promise<{ path: string; absolutePath: string; content: string; offset?: number; limit?: number }>;
-  write(path: string, content: string, options?: { append?: boolean; createDirs?: boolean }): Promise<{ path: string; absolutePath: string; bytes: number; appended: boolean }>;
-  edit(path: string, edit: { oldText: string; newText: string; replaceAll?: boolean }): Promise<{ path: string; absolutePath: string; replacements: number }>;
+  read(
+    path: string | { path?: string; absolutePath?: string },
+    options?: { offset?: number; limit?: number },
+  ): Promise<{
+    path: string;
+    absolutePath: string;
+    content: string;
+    offset?: number;
+    limit?: number;
+  }>;
+  write(
+    path: string,
+    content: string,
+    options?: { append?: boolean; createDirs?: boolean },
+  ): Promise<{
+    path: string;
+    absolutePath: string;
+    bytes: number;
+    appended: boolean;
+  }>;
+  edit(
+    path: string,
+    edit: { oldText: string; newText: string; replaceAll?: boolean },
+  ): Promise<{ path: string; absolutePath: string; replacements: number }>;
   files(pattern?: string): Promise<string[]>;
-  search(query: string, options?: { filePattern?: string; maxResults?: number; timeoutSeconds?: number }): Promise<Array<{ path: string; filePath: string; absolutePath: string; line: number | null; snippet: string; text: string; lines: string[] }>>;
+  search(
+    query: string,
+    options?: {
+      filePattern?: string;
+      maxResults?: number;
+      timeoutSeconds?: number;
+    },
+  ): Promise<
+    Array<{
+      path: string;
+      filePath: string;
+      absolutePath: string;
+      line: number | null;
+      snippet: string;
+      text: string;
+      lines: string[];
+    }>
+  >;
 };
 
 declare const npm: {
   scripts(path?: string): Promise<Record<string, string>>;
-  findScripts(query: string, path?: string): Promise<Array<{ name: string; command: string }>>;
+  findScripts(
+    query: string,
+    path?: string,
+  ): Promise<Array<{ name: string; command: string }>>;
 };
 
 declare const shell: {
-  run(command: string, options?: { cwd?: string; timeoutSeconds?: number }): Promise<{ stdout: string; stderr: string; exitCode: number }>;
+  run(
+    command: string,
+    options?: { cwd?: string; timeoutSeconds?: number },
+  ): Promise<{ stdout: string; stderr: string; exitCode: number }>;
 };
 
 declare const ui: {

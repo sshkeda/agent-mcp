@@ -15,16 +15,27 @@
     "dev": "tsx src/index.ts",
     "start": "node dist/src/index.js",
     "smoke": "npm run build && node tests/smoke.mjs",
-    "check": "npm run build && npm run smoke",
-    "prepack": "npm run build"
+    "check": "npm run format:check && npm run lint && npm run typecheck && npm run smoke",
+    "prepack": "npm run build",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "prepare": "lefthook install"
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.12.1"
   },
   "devDependencies": {
+    "@eslint/js": "^10.0.1",
     "@types/node": "^22.0.0",
+    "eslint": "^10.3.0",
+    "lefthook": "^2.1.6",
+    "prettier": "^3.8.3",
     "tsx": "^4.19.0",
-    "typescript": "^5.7.0"
+    "typescript": "^5.7.0",
+    "typescript-eslint": "^8.59.2"
   },
   "homepage": "https://github.com/sshkeda/agent-mcp#readme",
   "repository": {
