@@ -21,7 +21,8 @@
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "format": "prettier --write .",
-    "format:check": "prettier --check ."
+    "format:check": "prettier --check .",
+    "prepare": "lefthook install"
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.12.1"
@@ -30,6 +31,7 @@
     "@eslint/js": "^10.0.1",
     "@types/node": "^22.0.0",
     "eslint": "^10.3.0",
+    "lefthook": "^2.1.6",
     "prettier": "^3.8.3",
     "tsx": "^4.19.0",
     "typescript": "^5.7.0",
