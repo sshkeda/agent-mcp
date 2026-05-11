@@ -10,7 +10,7 @@ import {
   openSync,
   chmodSync,
 } from "node:fs";
-import { basename, resolve } from "node:path";
+import { resolve } from "node:path";
 import { homedir } from "node:os";
 
 const HOME = homedir();
@@ -28,14 +28,12 @@ function optionValue(name: string): string | undefined {
   return index >= 0 ? args[index + 1] : undefined;
 }
 
-const INVOKED_AS = basename(process.argv[1] || "agent-mcp");
-const DEFAULT_PROFILE = INVOKED_AS === "pi-mcp" ? "full" : "run-only";
 const PORT = parseInt(
   optionValue("--port") ?? process.env.AGENT_MCP_PORT ?? "3939",
   10,
 );
 const PROFILE =
-  optionValue("--profile") ?? process.env.AGENT_MCP_PROFILE ?? DEFAULT_PROFILE;
+  optionValue("--profile") ?? process.env.AGENT_MCP_PROFILE ?? "run-only";
 const CWD = optionValue("--cwd") ?? process.env.AGENT_MCP_CWD;
 
 function ensureDirs() {

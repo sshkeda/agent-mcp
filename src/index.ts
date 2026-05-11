@@ -46,7 +46,7 @@ type AgentMcpProfile = "run-only" | "full" | "readonly";
 
 function normalizeProfile(raw: string): AgentMcpProfile {
   const value = raw.trim().toLowerCase();
-  if (value === "full" || value === "pi" || value === "pi-mcp") return "full";
+  if (value === "full") return "full";
   if (value === "readonly" || value === "read-only" || value === "read")
     return "readonly";
   return "run-only";
@@ -366,12 +366,6 @@ function createMcpServer(): McpServer {
     "agent-mcp.run",
     "agent-mcp/run",
     "/agent-mcp/run",
-    "my-mcp.run",
-    "my-mcp/run",
-    "/my-mcp/run",
-    "pi-mcp.run",
-    "pi-mcp/run",
-    "/pi-mcp/run",
   ]);
 
   if (PROFILE === "full") registerLowLevelTools(server);
@@ -419,11 +413,7 @@ function isLocalAdminRequest(req: IncomingMessage): boolean {
 function tokenFromRequest(req: IncomingMessage, url = requestUrl(req)): string {
   const auth = req.headers.authorization || "";
   if (auth.startsWith("Bearer ")) return auth.slice("Bearer ".length).trim();
-  for (const name of [
-    "x-agent-mcp-token",
-    "x-my-mcp-token",
-    "x-pi-mcp-token",
-  ]) {
+  for (const name of ["x-agent-mcp-token"]) {
     const header = req.headers[name];
     if (typeof header === "string") return header;
     if (Array.isArray(header) && header[0]) return header[0];

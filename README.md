@@ -4,11 +4,6 @@
 
 It gives MCP clients one high-level `run` tool by default, plus optional low-level computer-control tools when you explicitly opt in.
 
-`agent-mcp` supersedes the earlier `my-mcp` and `pi-mcp` experiments:
-
-- `my-mcp` → `agent-mcp --profile run-only`
-- `pi-mcp` → `agent-mcp --profile full`
-
 ## Why agent-mcp?
 
 Most local MCP servers expose a pile of low-level tools. `agent-mcp` defaults to one agent-grade primitive:
@@ -19,7 +14,7 @@ Most local MCP servers expose a pile of low-level tools. `agent-mcp` defaults to
 - bearer-token auth and OAuth endpoints are built in
 - profiles let you choose the exact tool surface exposed to a client
 
-Useful search terms: **local MCP server**, **Model Context Protocol server**, **MCP computer control**, **AI agent repo access**, **Claude Desktop MCP**, **Cursor MCP**, **ChatGPT MCP tools**.
+Useful search terms: **local MCP server**, **Model Context Protocol server**, **MCP computer control**, **AI agent repo access**, **Claude Desktop MCP**, **Cursor MCP**, **AI coding agents**.
 
 ## Install
 
@@ -91,7 +86,7 @@ The recommended production default. Exposes only:
 
 ### `full`
 
-Compatibility/profile for `pi-mcp`-style clients. Exposes:
+Opt-in profile for trusted clients that need lower-level computer-control tools. Exposes:
 
 - `run`
 - `bash`
@@ -209,13 +204,6 @@ agent-mcp token
 agent-mcp url
 ```
 
-Compatibility binaries are also exposed by the package:
-
-- `my-mcp` defaults to `run-only`
-- `pi-mcp` defaults to `full`
-
-All binaries run the same `agent-mcp` daemon implementation.
-
 ## Environment variables
 
 ```text
@@ -244,13 +232,6 @@ http://127.0.0.1:3939/mcp?token=<token>
 ```
 
 Prefer headers when the MCP client supports them. The query-token form is a compatibility fallback.
-
-Compatibility headers are accepted while migrating older clients:
-
-```text
-X-My-MCP-Token
-X-PI-MCP-Token
-```
 
 OAuth endpoints are exposed for MCP clients that support OAuth:
 
@@ -302,10 +283,6 @@ curl -X POST http://127.0.0.1:3939/admin/unpin \
   -d '{}'
 ```
 
-## ChatGPT Pro note
-
-Concrete ChatGPT Pro-family models currently do **not** reliably receive ChatGPT Apps/MCP tools in Stephen's account. `agent-mcp` is for MCP clients and model modes that demonstrably call MCP tools. For reliable GPT Pro review, gather evidence outside Pro and pass it in as prompt context.
-
 ## Security model
 
 `agent-mcp` is local-first and binds to `127.0.0.1` by default. It is intended for trusted local MCP clients.
@@ -338,7 +315,6 @@ CI runs:
 
 - npm publish
 - generated MCP descriptors from an `agent-affordances` catalog
-- semantic parity snapshots against the old `my-mcp` and `pi-mcp` tool descriptors
 - stricter profile-level policy controls
 - optional signed releases
 
