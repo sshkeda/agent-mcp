@@ -1,7 +1,7 @@
 {
   "name": "agent-mcp",
   "version": "0.1.0",
-  "description": "Production local MCP server for agent-grade computer and repo access",
+  "description": "Production local MCP server for AI agents with run-only and computer-control profiles",
   "author": "sshkeda",
   "license": "MIT",
   "type": "module",
@@ -15,7 +15,8 @@
     "dev": "tsx src/index.ts",
     "start": "node dist/src/index.js",
     "smoke": "npm run build && node tests/smoke.mjs",
-    "check": "npm run build && npm run smoke"
+    "check": "npm run build && npm run smoke",
+    "prepack": "npm run build"
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.12.1"
@@ -24,5 +25,35 @@
     "@types/node": "^22.0.0",
     "tsx": "^4.19.0",
     "typescript": "^5.7.0"
-  }
+  },
+  "homepage": "https://github.com/sshkeda/agent-mcp#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sshkeda/agent-mcp.git"
+  },
+  "bugs": {
+    "url": "https://github.com/sshkeda/agent-mcp/issues"
+  },
+  "keywords": [
+    "mcp",
+    "model-context-protocol",
+    "mcp-server",
+    "local-mcp",
+    "ai-agent",
+    "agent-tools",
+    "computer-control",
+    "repo-access",
+    "claude-desktop",
+    "cursor",
+    "chatgpt",
+    "typescript"
+  ],
+  "engines": {
+    "node": ">=22"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ]
 }
